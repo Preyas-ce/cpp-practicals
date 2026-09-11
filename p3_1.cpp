@@ -1,0 +1,38 @@
+#include <iostream>
+using namespace std;
+int main(){
+    short int m1,m2,m3,Total;
+    short double avg,p;
+    cout<<"************************************************"<<endl;
+    cout<<"     STUDENT RECORD MANAGEMENT SYSTEM"<<endl;
+    cout<<"************************************************"<<endl;
+    cout<<"Software Version : 1.1"<<endl;
+    cout<<"------------------------------------------"<<endl;
+    cout<<"Student Registration"<<endl;
+    cout<<"------------------------------------------"<<endl;
+    cout<<"------------------------------------------"<<endl;
+    cout<<"Academic Information"<<endl;
+    cout<<"------------------------------------------"<<endl;
+    cout<<"Enter Physics Marks               :"<<endl;
+    cin>>m1;
+    cout<<"Enter Maths Marks                 :"<<endl;
+    cin>>m2;
+    cout<<"Enter Programming Foundation Marks:"<<endl;
+    cin>>m3;
+    cout<<"------------------------------------------"<<endl;
+    cout<<"Academic Summary"<<endl;
+    cout<<"------------------------------------------"<<endl;
+    Total=m1+m2+m3;
+    cout<<"Total:"<<Total<<endl;
+    avg= (m1+m2+m3) / 3.0;
+    cout<<"Average Marks:"<<avg<<endl;
+    p= (m1+m2+m3)/3.0;
+    cout<<"Percentage:"<<p<<endl;
+    cout<<"------------------------------------------"<<endl;
+    cout<<"Student Information"<<endl;
+    cout<<"------------------------------------------"<<endl;
+    cout<<"Enrollment Number  :"<<eno<<endl;
+    cout<<"Student Name       :"<<name<<endl;
+    cout<<"Branch             :"<<b<<endl;
+    cout<<"Semester           :"<<sem<<endl;
+    cout<<"Mobile no.         :"<<mno<<endl;
