@@ -1,111 +1,123 @@
 #include <iostream>
 using namespace std;
 
-// Part A: Recursive Traversal Function Prototypes
-void print1ToN(int n);
-void printNTo1(int n);
+void print1ToNRecursive(int n) {
+    if (n == 0) return;
+    print1ToNRecursive(n - 1);
+    cout << n << " ";
+}
 
-// Part B: Recursive Number Processing Function Prototypes
-int reverseNumber(int n, int rev = 0);
-int sumOfDigits(int n);
+void printNTo1Recursive(int n) {
+    if (n == 0) return;
+    cout << n << " ";
+    printNTo1Recursive(n - 1);
+}
 
-// Part C: Recursive Number Conversion Function Prototype
-void decimalToBinary(int n);
+int reverseNumberRecursive(int n, int reversed = 0) {
+    if (n == 0) return reversed;
+    return reverseNumberRecursive(n / 10, reversed * 10 + n % 10);
+}
+
+int sumOfDigitsRecursive(int n) {
+    if (n == 0) return 0;
+    return n % 10 + sumOfDigitsRecursive(n / 10);
+}
+
+void decimalToBinaryRecursive(int n) {
+    if (n == 0) return;
+    decimalToBinaryRecursive(n / 2);
+    cout << n % 2;
+}
+
+int reverseNumberIterative(int n) {
+    int reversed = 0;
+    while (n > 0) {
+        reversed = reversed * 10 + n % 10;
+        n /= 10;
+    }
+    return reversed;
+}
+
+int sumOfDigitsIterative(int n) {
+    int sum = 0;
+    while (n > 0) {
+        sum += n % 10;
+        n /= 10;
+    }
+    return sum;
+}
+
+void decimalToBinaryIterative(int n) {
+    if (n == 0) {
+        cout << "0";
+        return;
+    }
+    int binary[32];
+    int count = 0;
+    while (n > 0) {
+        binary[count++] = n % 2;
+        n /= 2;
+    }
+    for (int i = count - 1; i >= 0; --i) cout << binary[i];
+}
 
 int main() {
-    int n, num, decimalNum;
-
     cout << "********************************************\n";
     cout << "         RECURSIVE UTILITY ANALYZER         \n";
     cout << "********************************************\n";
 
-    // ---------------- PART A: Recursive Traversal ----------------
-    cout << "\n----------- Part A: Recursive Traversal -----------\n";
-    cout << "Enter a positive integer (N) : ";
-    cin >> n;
-
-    if (n <= 0) {
+    int n = 0;
+    cout << "\nEnter a positive integer (N): ";
+    if (!(cin >> n) || n <= 0) {
         cout << "Please enter a positive integer greater than 0.\n";
-    } else {
-        cout << "Numbers from 1 to " << n << "          : ";
-        print1ToN(n);
-        cout << "\n";
-
-        cout << "Numbers from " << n << " to 1          : ";
-        printNTo1(n);
-        cout << "\n";
+        return 1;
     }
 
-    // ------------ PART B: Recursive Number Processing ------------
-    cout << "\n------- Part B: Recursive Number Processing -------\n";
-    cout << "Enter a positive integer     : ";
-    cin >> num;
+    cout << "Numbers 1 to N, recursive: ";
+    print1ToNRecursive(n);
+    cout << "\nNumbers N to 1, recursive: ";
+    printNTo1Recursive(n);
 
-    if (num <= 0) {
+    cout << "\n\nNumbers 1 to N, iterative: ";
+    for (int i = 1; i <= n; ++i) cout << i << " ";
+    cout << "\nNumbers N to 1, iterative: ";
+    for (int i = n; i >= 1; --i) cout << i << " ";
+
+    int number = 0;
+    cout << "\n\nEnter a positive integer: ";
+    if (!(cin >> number) || number <= 0) {
         cout << "Please enter a positive integer greater than 0.\n";
-    } else {
-        cout << "Reversed Number              : " << reverseNumber(num) << "\n";
-        cout << "Sum of Digits                : " << sumOfDigits(num) << "\n";
+        return 1;
     }
 
-    // ------------ PART C: Recursive Number Conversion ------------
-    cout << "\n------- Part C: Recursive Number Conversion -------\n";
-    cout << "Enter a decimal number       : ";
-    cin >> decimalNum;
+    cout << "Reversed Number, recursive: "
+         << reverseNumberRecursive(number) << "\n";
+    cout << "Reversed Number, iterative: "
+         << reverseNumberIterative(number) << "\n";
+    cout << "Sum of Digits, recursive: "
+         << sumOfDigitsRecursive(number) << "\n";
+    cout << "Sum of Digits, iterative: "
+         << sumOfDigitsIterative(number) << "\n";
 
-    if (decimalNum < 0) {
+    int decimalNumber = -1;
+    cout << "\nEnter a decimal number: ";
+    if (!(cin >> decimalNumber) || decimalNumber < 0) {
         cout << "Please enter a non-negative decimal integer.\n";
-    } else {
-        cout << "Binary Representation        : ";
-        decimalToBinary(decimalNum);
-        cout << "\n";
+        return 1;
     }
 
-    cout << "\n--------------------------------------------\n";
-    cout << "Program Executed Successfully.\n";
-    cout << "--------------------------------------------\n";
+    cout << "Binary, recursive: ";
+    if (decimalNumber == 0) cout << "0";
+    else decimalToBinaryRecursive(decimalNumber);
 
+    cout << "\nBinary, iterative: ";
+    decimalToBinaryIterative(decimalNumber);
+
+    cout << "\n\nPart D - Comparative Analysis\n";
+    cout << "Traversal: recursion uses stack calls; iteration uses a loop.\n";
+    cout << "Number processing: both results match; iteration avoids stack overhead.\n";
+    cout << "Binary conversion: both results match; recursion prints from high to low.\n";
+
+    cout << "\nProgram Executed Successfully.\n";
     return 0;
-}
-
-// Displays numbers from 1 to N (Head Recursion)
-void print1ToN(int n) {
-    if (n == 0) {
-        return; // Base condition
-    }
-    print1ToN(n - 1);
-    cout << n << " ";
-}
-
-// Displays numbers from N to 1 (Tail Recursion)
-void printNTo1(int n) {
-    if (n == 0) {
-        return; // Base condition
-    }
-    cout << n << " ";
-    printNTo1(n - 1);
-}
-
-// Reverses a positive integer using a default accumulator parameter
-int reverseNumber(int n, int rev) {
-    if (n == 0) {
-        return rev; // Base condition
-    }
-    return reverseNumber(n / 10, (rev * 10) + (n % 10));
-}
-
-// Calculates the sum of digits of a positive integer
-int sumOfDigits(int n) {
-    if (n == 0) {
-        return 0; // Base condition
-    }
-    return (n % 10) + sumOfDigits(n / 10);
-}
-
-// Converts and prints a decimal number in binary
-void decimalToBinary(int n) {
-    if (n > 1) {
-        decimalToBinary(n / 2);
-    }
-    cout << (n % 2);
 }

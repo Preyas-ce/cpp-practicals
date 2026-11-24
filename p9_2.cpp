@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
-#include <string>
-
+#include <cstring>
+#include <limits>
 using namespace std;
 
 struct Student {
@@ -13,87 +13,98 @@ struct Student {
     char grade[5];
 };
 
-// Part C - Address-based Function Access
 void displayRecords(const Student *basePtr, int count) {
-    cout << "\nStudent Records using Address-based Access\n" << endl;
+    cout << "\nStudent Records using Address-based Access\n";
     for (int i = 0; i < count; ++i) {
         const Student *current = basePtr + i;
-        cout << "Address: " << (void*)current << endl;
-        cout << current->enrollment << "  " 
-             << current->name << "  " 
-             << current->branch << "  " 
-             << current->semester << "  " 
-             << fixed << setprecision(2) << current->percentage << "  " 
-             << current->grade << endl;
-        cout << "--------------------------------------------" << endl;
+        cout << "Address: " << current << "\n";
+        cout << current->enrollment << "  " << current->name << "  "
+             << current->branch << "  " << current->semester << "  "
+             << fixed << setprecision(2) << current->percentage << "  "
+             << current->grade << "\n";
+        cout << "--------------------------------------------\n";
     }
 }
 
 void displayAcademicSummary(const Student *basePtr, int count) {
-    if (count <= 0) return;
-
+    if (basePtr == nullptr || count <= 0) return;
     float total = 0.0f;
     float highest = basePtr->percentage;
     float lowest = basePtr->percentage;
-
     for (int i = 0; i < count; ++i) {
-        float p = (basePtr + i)->percentage;
-        total += p;
-        if (p > highest) highest = p;
-        if (p < lowest) lowest = p;
+        float percentage = (basePtr + i)->percentage;
+        total += percentage;
+        if (percentage > highest) highest = percentage;
+        if (percentage < lowest) lowest = percentage;
     }
-
-    cout << "\nAcademic Summary\n" << endl;
+    cout << "\nAcademic Summary\n";
     cout << fixed << setprecision(2);
-    cout << "Class Average Percentage : " << (total / count) << " %" << endl;
-    cout << "Highest Percentage       : " << highest << " %" << endl;
-    cout << "Lowest Percentage        : " << lowest << " %" << endl;
-    cout << "--------------------------------------------" << endl;
+    cout << "Class Average Percentage : " << total / count << " %\n";
+    cout << "Highest Percentage       : " << highest << " %\n";
+    cout << "Lowest Percentage        : " << lowest << " %\n";
 }
 
 int main() {
-    cout << "********************************************" << endl;
-    cout << "      STUDENT RECORD MANAGEMENT SYSTEM      " << endl;
-    cout << "********************************************" << endl << endl;
+    cout << "********************************************\n";
+    cout << "      STUDENT RECORD MANAGEMENT SYSTEM      \n";
+    cout << "********************************************\n";
 
-    int n;
+    int count = 0;
     cout << "Enter Number of Students: ";
-    cin >> n;
-
-    // Part A - Dynamic Memory Allocation
-    Student *students = new Student[n];
-    cout << "Dynamic Memory Allocated Successfully\n" << endl;
-
-    cout << "Enter Student Details" << endl;
-    for (int i = 0; i < n; ++i) {
-        Student *curr = students + i; // Offset-based pointer
-        cout << "\nStudent " << (i + 1) << endl << endl;
-        cout << "Enrollment Number: ";
-        cin >> curr->enrollment;
-        cout << "Student Name     : ";
-        cin.ignore();
-        cin.getline(curr->name, 50);
-        cout << "Branch           : ";
-        cin >> curr->branch;
-        cout << "Semester         : ";
-        cin >> curr->semester;
-        cout << "Percentage       : ";
-        cin >> curr->percentage;
-        cout << "Grade            : ";
-        cin >> curr->grade;
+    if (!(cin >> count) || count <= 0) {
+        cout << "Invalid number of students.\n";
+        return 1;
     }
 
-    // Part B & C - Address-based Processing & Traversal
-    displayRecords(students, n);
-    displayAcademicSummary(students, n);
+    if (static_cast<size_t>(count) >
+        numeric_limits<size_t>::max() / sizeof(Student)) {
+        cout << "Requested allocation is too large.\n";
+        return 1;
+    }
 
-    // Part D - Dynamic Memory Deallocation
+    Student *students = new(nothrow) Student[count];
+    if (students == nullptr) {
+        cout << "Dynamic Memory Allocation Failed.\n";
+        return 1;
+    }
+
+    cout << "Dynamic Memory Allocated Successfully\n";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    for (int i = 0; i < count; ++i) {
+        Student *current = students + i;
+        cout << "\nStudent " << i + 1 << "\n";
+        cout << "Enrollment Number: ";
+        cin.getline(current->enrollment, sizeof(current->enrollment));
+        cout << "Student Name: ";
+        cin.getline(current->name, sizeof(current->name));
+        cout << "Branch: ";
+        cin.getline(current->branch, sizeof(current->branch));
+        cout << "Semester: ";
+        if (!(cin >> current->semester) || current->semester < 1 || current->semester > 8) {
+            cout << "Invalid semester.\n";
+            delete[] students;
+            return 1;
+        }
+        cout << "Percentage: ";
+        if (!(cin >> current->percentage) || current->percentage < 0.0f || current->percentage > 100.0f) {
+            cout << "Invalid percentage.\n";
+            delete[] students;
+            return 1;
+        }
+        cout << "Grade: ";
+        cin >> current->grade;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    displayRecords(students, count);
+    displayAcademicSummary(students, count);
+
+    cout << "\nDynamic Memory Released Successfully\n";
     delete[] students;
-    students = nullptr; // Reset address variable
-    cout << "Dynamic Memory Released Successfully" << endl;
-    cout << "Address Variable Reset Successfully" << endl;
-    cout << "--------------------------------------------" << endl;
-    cout << "Program Executed Successfully" << endl;
-
+    students = nullptr;
+    cout << "Address Variable Reset Successfully\n";
+    cout << "--------------------------------------------\n";
+    cout << "Program Executed Successfully\n";
     return 0;
 }

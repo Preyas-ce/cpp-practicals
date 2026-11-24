@@ -1,96 +1,73 @@
 #include <iostream>
+#include <iomanip>
+#include <limits>
 using namespace std;
+
 int main() {
-	short int marks;
-	double Total;
-	double avg,p;
-	short int n,i,j;
-	cout<<"Enter No. Of Subjects:"<<endl;
-	cin>>n;
-	for (i=1; i<=n; i++)
-	{
-		cout<<"Enter Marks Of Subject"<<i<<":";
-		cin>>marks;
-		Total=Total+marks;
-	}
-	avg = Total / n;
-	p = Total / (n * 100) * 100;
+    int numberOfSubjects = 0;
+    int marks = 0;
+    int totalMarks = 0;
 
-	cout<<"------------------------------------------"<<endl;
-	cout<<"Academic Result"<<endl;
-	cout<<"------------------------------------------"<<endl;
+    cout << "Enter No. Of Subjects: " << endl;
+    if (!(cin >> numberOfSubjects) || numberOfSubjects <= 0) {
+        cout << "Invalid number of subjects. Enter a positive integer." << endl;
+        return 1;
+    }
 
-	cout << "Total Marks : " << Total << endl;
-	cout << "Average Marks : " << avg << endl;
-	cout << "Percentage : " << p << "%" << endl;
-	if(p>=90)
-	{
-		cout<<"Result:Pass"<<endl;
-		cout<<"Grade:O"<<endl;
-		cout<<"Performance:Outstanding"<<endl;
-		cout<<"Congratulations you have successfully Passed!"<<endl;
-	}
+    for (int i = 1; i <= numberOfSubjects; ++i) {
+        cout << "Enter Marks Of Subject " << i << ": ";
+        if (!(cin >> marks) || marks < 0 || marks > 100) {
+            cout << "Invalid marks for subject " << i
+                 << ". Enter a value from 0 to 100." << endl;
+            return 1;
+        }
+        totalMarks += marks;
+    }
 
-	else if (p<89  || p>80)
-	{
+    const double averageMarks = static_cast<double>(totalMarks) / numberOfSubjects;
+    const double percentage = static_cast<double>(totalMarks) /
+                              (numberOfSubjects * 100) * 100.0;
 
+    cout << "------------------------------------------" << endl;
+    cout << "Academic Result" << endl;
+    cout << "------------------------------------------" << endl;
+    cout << fixed << setprecision(2);
+    cout << "Total Marks : " << totalMarks << endl;
+    cout << "Average Marks : " << averageMarks << endl;
+    cout << "Percentage : " << percentage << "%" << endl;
 
-		cout<<"Result:Pass"<<endl;
-		cout<<"Grade:A+"<<endl;
-		cout<<"Performance:Excellent"<<endl;
-		cout<<"Congratulations you have successfully Passed!"<<endl;
-	}
+    if (percentage >= 90.0) {
+        cout << "Result:PASS" << endl;
+        cout << "Grade:O" << endl;
+        cout << "Performance:Outstanding" << endl;
+    } else if (percentage >= 80.0) {
+        cout << "Result:PASS" << endl;
+        cout << "Grade:A+" << endl;
+        cout << "Performance:Excellent" << endl;
+    } else if (percentage >= 70.0) {
+        cout << "Result:PASS" << endl;
+        cout << "Grade:A" << endl;
+        cout << "Performance:Very Good" << endl;
+    } else if (percentage >= 60.0) {
+        cout << "Result:PASS" << endl;
+        cout << "Grade:B+" << endl;
+        cout << "Performance:Good" << endl;
+    } else if (percentage >= 50.0) {
+        cout << "Result:PASS" << endl;
+        cout << "Grade:B" << endl;
+        cout << "Performance:Satisfactory" << endl;
+    } else if (percentage >= 40.0) {
+        cout << "Result:PASS" << endl;
+        cout << "Grade:C" << endl;
+        cout << "Performance:Needs Improvement" << endl;
+    } else {
+        cout << "Result:FAIL" << endl;
+        cout << "Grade:F" << endl;
+        cout << "Performance:Failed" << endl;
+    }
+    cout << "------------------------------------------" << endl;
 
-	else if (p<79  || p>70)
-	{
-
-
-		cout<<"Result:Pass"<<endl;
-		cout<<"Grade:A"<<endl;
-		cout<<"Performance:Very Good"<<endl;
-		cout<<"Congratulations you have successfully Passed!"<<endl;
-	}
-
-	else if (p<69  || p>60)
-	{
-
-
-		cout<<"Result:Pass"<<endl;
-		cout<<"Grade:B+"<<endl;
-		cout<<"Performance:Good"<<endl;
-		cout<<"Congratulations you have successfully Passed!"<<endl;
-	}
-
-	else if (p<59  || p>50)
-	{
-
-
-		cout<<"Result:Pass"<<endl;
-		cout<<"Grade:B"<<endl;
-		cout<<"Performance:Satisfactory"<<endl;
-		cout<<"Congratulations you have successfully Passed!"<<endl;
-	}
-
-	else if (p<49  || p>40)
-	{
-
-
-		cout<<"Result:Pass"<<endl;
-		cout<<"Grade:C"<<endl;
-		cout<<"Performance:Needs Improvement"<<endl;
-		cout<<"Congratulations you have successfully Passed!"<<endl;
-	}
-
-	else
-	{
-
-
-
-		cout<<"Result:Fail"<<endl;
-		cout<<"Grade:F"<<endl;
-		cout<<"Better Luck Next Time!"<<endl;
-	}
-	cout<<"------------------------------------------";
+    return 0;
 }
 
 

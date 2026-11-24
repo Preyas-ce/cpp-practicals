@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <limits>
 
 using namespace std;
 
@@ -33,24 +34,40 @@ int main() {
 
     int n;
     cout << "Enter Number of Students: ";
-    cin >> n;
+    if (!(cin >> n) || n <= 0) {
+        cout << "Invalid number of students." << endl;
+        return 1;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     vector<Student> list(n);
     for (int i = 0; i < n; ++i) {
         cout << "\nStudent " << (i + 1) << endl;
         cout << "Enrollment Number: ";
-        cin >> list[i].enrollment;
+        if (!(cin >> list[i].enrollment)) {
+            cout << "Invalid enrollment number." << endl;
+            return 1;
+        }
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Student Name: ";
-        cin.ignore();
         getline(cin, list[i].name);
         cout << "Branch: ";
         cin >> list[i].branch;
         cout << "Semester: ";
-        cin >> list[i].semester;
+        if (!(cin >> list[i].semester) ||
+            list[i].semester < 1 || list[i].semester > 8) {
+            cout << "Invalid semester." << endl;
+            return 1;
+        }
         cout << "Percentage: ";
-        cin >> list[i].percentage;
+        if (!(cin >> list[i].percentage) ||
+            list[i].percentage < 0.0f || list[i].percentage > 100.0f) {
+            cout << "Invalid percentage." << endl;
+            return 1;
+        }
         cout << "Grade: ";
         cin >> list[i].grade;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         // Writing structured records to file
         outFile << list[i].enrollment << "\n"
@@ -59,6 +76,11 @@ int main() {
                 << list[i].semester << "\n"
                 << fixed << setprecision(2) << list[i].percentage << "\n"
                 << list[i].grade << "\n";
+        if (!outFile) {
+            cout << "Error: Could not write student record " << i + 1 << "." << endl;
+            outFile.close();
+            return 1;
+        }
     }
     outFile.close();
     cout << "\nStudent Records Stored Successfully\n" << endl;

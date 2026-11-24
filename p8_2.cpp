@@ -1,99 +1,120 @@
 #include <iostream>
-#include <iomanip>
-
+#include <string>
 using namespace std;
 
-// Global counter to monitor recursive function calls
-int recursionCallCount = 0;
+int globalScore = 100;
 
-// Part A: Factorial Implementations
-long long factorialIterative(int n) {
-    long long fact = 1;
-    for (int i = 1; i <= n; ++i) {
-        fact *= i;
-    }
-    return fact;
+void printWelcome();
+void printSum(int firstNumber, int secondNumber);
+int getFixedScore();
+int addNumbers(int firstNumber, int secondNumber);
+void modifyByValue(int score);
+void modifyByReference(int &score);
+
+void displayStudentDetails(const string &name);
+void displayStudentDetails(const string &name, int semester);
+void displayStudentDetails(const string &name, int semester,
+                           const string &mobileNumber);
+void displayStudentDetails(const string &name, const string &branch);
+
+void printWelcome() {
+    cout << "Welcome to the Function Design Analyzer" << endl;
 }
 
-long long factorialRecursive(int n) {
-    recursionCallCount++;
-    if (n <= 1) {
-        return 1;
-    }
-    return n * factorialRecursive(n - 1);
+void printSum(int firstNumber, int secondNumber) {
+    cout << "Arguments and no return: "
+         << firstNumber << " + " << secondNumber
+         << " = " << firstNumber + secondNumber << endl;
 }
 
-// Part B: Fibonacci Implementations
-void fibonacciIterative(int n) {
-    long long first = 0, second = 1, next;
-    for (int i = 0; i < n; ++i) {
-        if (i <= 1) {
-            next = i;
-        } else {
-            next = first + second;
-            first = second;
-            second = next;
-        }
-        cout << next << " ";
-    }
-    cout << endl;
+int getFixedScore() {
+    return 85;
 }
 
-long long fibonacciTermRecursive(int n) {
-    recursionCallCount++;
-    if (n <= 0) return 0;
-    if (n == 1) return 1;
-    return fibonacciTermRecursive(n - 1) + fibonacciTermRecursive(n - 2);
+int addNumbers(int firstNumber, int secondNumber) {
+    return firstNumber + secondNumber;
+}
+
+void modifyByValue(int score) {
+    score = 150;
+    cout << "Inside call by value: score = " << score << endl;
+}
+
+void modifyByReference(int &score) {
+    score = 150;
+    cout << "Inside call by reference: score = " << score << endl;
+}
+
+void displayStudentDetails(const string &name) {
+    cout << "Student: " << name << endl;
+}
+
+void displayStudentDetails(const string &name, int semester) {
+    cout << "Student: " << name << ", Semester: " << semester << endl;
+}
+
+void displayStudentDetails(const string &name, int semester,
+                           const string &mobileNumber) {
+    cout << "Student: " << name << ", Semester: " << semester
+         << ", Mobile: " << mobileNumber << endl;
+}
+
+void displayStudentDetails(const string &name, const string &branch) {
+    cout << "Student: " << name << ", Branch: " << branch << endl;
 }
 
 int main() {
-    int nFact = 5;
-    int nFibo = 7;
+    cout << "********************************************" << endl;
+    cout << "     FUNCTION DESIGN AND PARAMETER ANALYZER " << endl;
+    cout << "********************************************" << endl;
 
-    cout << "====================================================" << endl;
-    cout << "   RECURSIVE MATHEMATICAL OPERATIONS ANALYZER       " << endl;
-    cout << "====================================================" << endl << endl;
+    cout << "\nPart A - Four Function Categories" << endl;
+    printWelcome();
 
-    // Part A: Factorial
-    cout << "--- Part A: Factorial (N = " << nFact << ") ---" << endl;
-    cout << "Iterative Result : " << factorialIterative(nFact) << endl;
+    printSum(10, 20);
 
-    recursionCallCount = 0;
-    long long recFact = factorialRecursive(nFact);
-    cout << "Recursive Result : " << recFact << endl;
-    cout << "Total Recursive Function Calls: " << recursionCallCount << endl << endl;
+    int fixedScore = getFixedScore();
+    cout << "No arguments and return value: fixed score = "
+         << fixedScore << endl;
 
-    // Part B: Fibonacci
-    cout << "--- Part B: Fibonacci Series (Terms = " << nFibo << ") ---" << endl;
-    cout << "Iterative Generation : ";
-    fibonacciIterative(nFibo);
+    int calculatedScore = addNumbers(30, 55);
+    cout << "Arguments and return value: 30 + 55 = "
+         << calculatedScore << endl;
 
-    recursionCallCount = 0;
-    cout << "Recursive Generation : ";
-    for (int i = 0; i < nFibo; ++i) {
-        cout << fibonacciTermRecursive(i) << " ";
+    cout << "\nPart B - Call by Value and Call by Reference" << endl;
+    int valueScore = 100;
+    cout << "Call by value before: " << valueScore << endl;
+    modifyByValue(valueScore);
+    cout << "Call by value after: " << valueScore << endl;
+
+    int referenceScore = 100;
+    cout << "Call by reference before: " << referenceScore << endl;
+    modifyByReference(referenceScore);
+    cout << "Call by reference after: " << referenceScore << endl;
+
+    cout << "\nPart C - Scope and Visibility" << endl;
+    cout << "Global variable visible in main: " << globalScore << endl;
+    int localScore = 200;
+    cout << "Local variable in main: " << localScore << endl;
+
+    {
+        int blockScore = 300;
+        cout << "Block variable visible inside block: " << blockScore << endl;
+        int globalScore = 400;
+        cout << "Shadowing: local block globalScore = " << globalScore << endl;
     }
-    cout << endl;
-    cout << "Total Recursive Calls (for " << nFibo << " terms): " << recursionCallCount << endl << endl;
 
-    // Part C: Comparison
-    cout << "--- Part C: Comparative Analysis ---" << endl;
-    cout << left << setw(20) << "Feature"
-         << setw(25) << "Iterative Approach"
-         << setw(25) << "Recursive Approach" << endl;
-    cout << string(70, '-') << endl;
-    cout << setw(20) << "Function Calls"
-         << setw(25) << "1 call (loop-based)"
-         << setw(25) << "Multiple calls (call stack)" << endl;
-    cout << setw(20) << "Memory Usage"
-         << setw(25) << "O(1) Fixed memory"
-         << setw(25) << "O(N) Stack frames" << endl;
-    cout << setw(20) << "Code Readability"
-         << setw(25) << "Stateful loop variables"
-         << setw(25) << "Direct mathematical syntax" << endl;
-    cout << setw(20) << "Execution Speed"
-         << setw(25) << "Fast (no stack overhead)"
-         << setw(25) << "Overhead per call frame" << endl;
+    cout << "Global variable after block: " << globalScore << endl;
+    cout << "Block variable is not visible outside its block" << endl;
+
+    cout << "\nPart D - Function Overloading" << endl;
+    displayStudentDetails("Amit Patel");
+    displayStudentDetails("Amit Patel", 1);
+    displayStudentDetails("Amit Patel", 1, "9876543210");
+    displayStudentDetails("Amit Patel", "CE");
+
+    cout << "\nThe compiler selects the overload from the argument types "
+            "and argument count." << endl;
 
     return 0;
 }

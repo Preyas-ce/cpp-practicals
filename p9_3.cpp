@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 void demonstrateStackAndHeap() {
@@ -47,16 +46,16 @@ void demonstrateMemorySafety() {
     }
     cout << "--------------------------------------------" << endl;
 
-    // 2. Invalid Reference
+    // 2. Invalid/dangling reference is never dereferenced
     int *danglingPtr = new int(10);
     delete danglingPtr;
-    danglingPtr = nullptr; // Reset to avoid dangling reference
+    danglingPtr = nullptr;
     cout << "Invalid Reference" << endl;
     cout << "Memory Released Successfully" << endl;
     cout << "Reference Invalid" << endl;
     cout << "--------------------------------------------" << endl;
 
-    // 3. Uninitialized Address Variable
+    // 3. Uninitialized Address Variable: shown only by concept, never read
     cout << "Uninitialized Address Variable" << endl;
     cout << "Unsafe to Access" << endl;
 }
