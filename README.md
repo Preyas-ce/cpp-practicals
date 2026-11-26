@@ -1,6 +1,6 @@
 # C++ Practicals
 
-This repository contains C and C++ practical programs for **CHARUSAT CEUC103: Computer Programming Foundation**.
+This repository contains C++ practical programs for **CHARUSAT CEUC103: Computer Programming Foundation**.
 
 The official university practical PDF is the authoritative source for practical numbering and requirements.
 
