@@ -65,7 +65,29 @@ First get the latest changes and try again:
 
 ```powershell
 git pull --rebase origin main
+```
+
+If Git reports a conflict:
+
+1. Open the files Git lists and fix the conflicting lines.
+2. Save the files.
+3. Mark the fixed files and continue:
+
+```powershell
+git add <file-name>
+git rebase --continue
+```
+
+If you need to cancel the rebase, run:
+
+```powershell
+git rebase --abort
+```
+
+After the rebase is complete, run:
+
+```powershell
 git push origin main
 ```
 
-If Git reports a merge conflict, open the files it lists, fix the conflict, and continue the rebase. Do not use `git push --force` to fix a normal push rejection.
+Do not use `git push --force` to fix a normal push rejection.
