@@ -1,7 +1,6 @@
 #include <iostream>
-#include <string>
-#include <vector>
 #include <iomanip>
+#include <string>
 
 using namespace std;
 
@@ -10,18 +9,17 @@ struct Student {
     string name;
     string branch;
     int semester;
-    vector<int> marks;
+    int marks[5];
     int totalMarks;
-    float percentage;
+    double percentage;
     string grade;
     string result;
 };
 
-// Function prototypes
 void displayHeader();
-void acceptStudentDetails(Student &s);
-void calculateAcademicResult(Student &s);
-void displayStudentReport(const Student &s);
+void acceptStudentDetails(Student &student);
+void calculateAcademicResult(Student &student);
+void displayStudentReport(const Student &student);
 
 int main() {
     Student student;
@@ -35,80 +33,77 @@ int main() {
 }
 
 void displayHeader() {
-    cout << "**************************************************\n";
-    cout << "        STUDENT RECORD MANAGEMENT SYSTEM          \n";
-    cout << "**************************************************\n\n";
+    cout << "********************************************\n";
+    cout << "      STUDENT RECORD MANAGEMENT SYSTEM      \n";
+    cout << "********************************************\n\n";
 }
 
-void acceptStudentDetails(Student &s) {
-    cout << "------------ Student Registration ------------\n";
+void acceptStudentDetails(Student &student) {
+    cout << "----------- Student Registration -----------\n";
     cout << "Enter Enrollment Number : ";
-    cin >> s.enrollment;
+    cin >> student.enrollment;
 
     cout << "Enter Student Name      : ";
     cin.ignore();
-    getline(cin, s.name);
+    getline(cin, student.name);
 
     cout << "Enter Branch            : ";
-    cin >> s.branch;
+    cin >> student.branch;
 
     cout << "Enter Semester          : ";
-    cin >> s.semester;
+    cin >> student.semester;
 
-    s.marks.resize(5);
     cout << "\nEnter Marks\n";
-    for (int i = 0; i < 5; ++i) {
-        cout << "Subject " << (i + 1) << " : ";
-        cin >> s.marks[i];
-    }
-    cout << "\n";
-}
-
-void calculateAcademicResult(Student &s) {
-    s.totalMarks = 0;
-    bool hasFailed = false;
-
-    for (int mark : s.marks) {
-        s.totalMarks += mark;
-        if (mark < 40) {
-            hasFailed = true;
-        }
-    }
-
-    s.percentage = static_cast<float>(s.totalMarks) / 5.0f;
-
-    if (s.percentage >= 85.0f) {
-        s.grade = "A+";
-    } else if (s.percentage >= 75.0f) {
-        s.grade = "A";
-    } else if (s.percentage >= 65.0f) {
-        s.grade = "B";
-    } else if (s.percentage >= 50.0f) {
-        s.grade = "C";
-    } else {
-        s.grade = "F";
-    }
-
-    if (hasFailed || s.percentage < 40.0f) {
-        s.result = "FAIL";
-    } else {
-        s.result = "PASS";
+    for (int i = 0; i < 5; i++) {
+        cout << "Subject " << i + 1 << " : ";
+        cin >> student.marks[i];
     }
 }
 
-void displayStudentReport(const Student &s) {
-    cout << "--------------------------------------------------\n";
+void calculateAcademicResult(Student &student) {
+    student.totalMarks = 0;
+
+    for (int i = 0; i < 5; i++) {
+        student.totalMarks += student.marks[i];
+    }
+
+    student.percentage = student.totalMarks / 5.0;
+
+    if (student.percentage >= 90) {
+        student.grade = "O";
+    } else if (student.percentage >= 80) {
+        student.grade = "A+";
+    } else if (student.percentage >= 70) {
+        student.grade = "A";
+    } else if (student.percentage >= 60) {
+        student.grade = "B+";
+    } else if (student.percentage >= 50) {
+        student.grade = "B";
+    } else if (student.percentage >= 40) {
+        student.grade = "C";
+    } else {
+        student.grade = "F";
+    }
+
+    if (student.percentage >= 40) {
+        student.result = "PASS";
+    } else {
+        student.result = "FAIL";
+    }
+}
+
+void displayStudentReport(const Student &student) {
+    cout << "\n--------------------------------------------\n";
     cout << "Academic Report\n";
-    cout << "--------------------------------------------------\n";
-    cout << "Enrollment Number : " << s.enrollment << "\n";
-    cout << "Student Name      : " << s.name << "\n";
-    cout << "Branch            : " << s.branch << "\n";
-    cout << "Semester          : " << s.semester << "\n";
-    cout << "Total Marks       : " << s.totalMarks << "\n";
+    cout << "--------------------------------------------\n";
+    cout << "Enrollment Number : " << student.enrollment << "\n";
+    cout << "Student Name      : " << student.name << "\n";
+    cout << "Branch            : " << student.branch << "\n";
+    cout << "Semester          : " << student.semester << "\n";
+    cout << "Total Marks       : " << student.totalMarks << "\n";
     cout << fixed << setprecision(2);
-    cout << "Percentage        : " << s.percentage << "%\n";
-    cout << "Grade             : " << s.grade << "\n";
-    cout << "Result            : " << s.result << "\n";
-    cout << "--------------------------------------------------\n";
-    cout << "Program Executed Successfully Using User-defined Functions.\n";
+    cout << "Percentage        : " << student.percentage << "%\n";
+    cout << "Grade             : " << student.grade << "\n";
+    cout << "Result            : " << student.result << "\n";
+    cout << "--------------------------------------------\n";
 }
