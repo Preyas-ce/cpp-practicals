@@ -76,24 +76,23 @@ int main() {
     cout << endl;
     cout << "Total Recursive Calls (for " << nFibo << " terms): " << recursionCallCount << endl << endl;
 
-    // Part C: Comparison
-    cout << "--- Part C: Comparative Analysis ---" << endl;
-    cout << left << setw(20) << "Feature"
-         << setw(25) << "Iterative Approach"
-         << setw(25) << "Recursive Approach" << endl;
-    cout << string(70, '-') << endl;
-    cout << setw(20) << "Function Calls"
-         << setw(25) << "1 call (loop-based)"
-         << setw(25) << "Multiple calls (call stack)" << endl;
-    cout << setw(20) << "Memory Usage"
-         << setw(25) << "O(1) Fixed memory"
-         << setw(25) << "O(N) Stack frames" << endl;
-    cout << setw(20) << "Code Readability"
-         << setw(25) << "Stateful loop variables"
-         << setw(25) << "Direct mathematical syntax" << endl;
-    cout << setw(20) << "Execution Speed"
-         << setw(25) << "Fast (no stack overhead)"
-         << setw(25) << "Overhead per call frame" << endl;
+    //Part C: Comparison
+
+    cout << "\n1. Number of Function Calls\n";
+    cout << "Iterative: Function is called once and uses loops.\n";
+    cout << "Recursive: Function calls itself until the base condition.\n";
+
+    cout << "\n2. Program Readability\n";
+    cout << "Iterative: Uses loops and variables.\n";
+    cout << "Recursive: Uses a function calling itself.\n";
+
+    cout << "\n3. Code Complexity\n";
+    cout << "Iterative: Requires loop initialization, condition and update.\n";
+    cout << "Recursive: Requires a base condition and recursive call.\n";
+
+    cout << "\n4. Execution Flow\n";
+    cout << "Iterative: Repeats the loop until the condition becomes false.\n";
+    cout << "Recursive: Calls continue until the base condition is reached.\n";
 
     return 0;
 }
