@@ -1,112 +1,70 @@
 #include <iostream>
 #include <iomanip>
-#include <cstddef>
-
 using namespace std;
 
-// Structure with member ordering causing higher padding (Total: 24 Bytes on 64-bit ABI)
-struct CompositeA {
-    char a;      // 1 byte + 7 bytes padding
-    double b;    // 8 bytes
-    int c;       // 4 bytes + 4 bytes struct padding
+struct Product {
+    int productId;
+    char category;
+    double price;
 };
 
-// Structure arranged to minimize padding (Total: 16 Bytes on 64-bit ABI)
-struct CompositeB {
-    double b;    // 8 bytes
-    int c;       // 4 bytes
-    char a;      // 1 byte + 3 bytes struct padding
+// Same members arranged in a different order.
+struct ProductOrderA {
+    int productId;
+    char category;
+    double price;
 };
 
-// Part C - Shared Memory Composite Representation
-union SharedMemory {
-    int intVal;
-    float floatVal;
-    char charVal;
+struct ProductOrderB {
+    char category;
+    double price;
+    int productId;
+};
+
+union SharedValue {
+    int integerValue;
+    float floatValue;
+    char characterValue;
 };
 
 int main() {
     cout << "********************************************" << endl;
-    cout << "   COMPOSITE DATA REPRESENTATION ANALYZER   " << endl;
-    cout << "********************************************" << endl << endl;
+    cout << "       STRUCTURE AND UNION DEMONSTRATION    " << endl;
+    cout << "********************************************" << endl;
 
-    // Part A & B
-    cout << "Composite Data Type A" << endl;
-    cout << "Size : " << sizeof(CompositeA) << " Bytes" << endl;
-    cout << "Member char a size : " << sizeof(CompositeA::a) << " Bytes" << endl;
-    cout << "Member double b size : " << sizeof(CompositeA::b) << " Bytes" << endl;
-    cout << "Member int c size : " << sizeof(CompositeA::c) << " Bytes" << endl;
-    cout << "Member size sum : "
-         << sizeof(CompositeA::a) + sizeof(CompositeA::b) + sizeof(CompositeA::c)
-         << " Bytes" << endl;
-    cout << "Offsets: a=" << offsetof(CompositeA, a)
-         << ", b=" << offsetof(CompositeA, b)
-         << ", c=" << offsetof(CompositeA, c) << endl;
-    cout << "--------------------------------------------" << endl << endl;
+    cout << "\nPart A - Product Structure" << endl;
+    cout << "Size of product ID: " << sizeof(Product::productId) << " Bytes" << endl;
+    cout << "Size of category: " << sizeof(Product::category) << " Bytes" << endl;
+    cout << "Size of price: " << sizeof(Product::price) << " Bytes" << endl;
+    cout << "Total size of Product structure: " << sizeof(Product) << " Bytes" << endl;
 
-    cout << "Composite Data Type B" << endl;
-    cout << "Size : " << sizeof(CompositeB) << " Bytes" << endl;
-    cout << "Member double b size : " << sizeof(CompositeB::b) << " Bytes" << endl;
-    cout << "Member int c size : " << sizeof(CompositeB::c) << " Bytes" << endl;
-    cout << "Member char a size : " << sizeof(CompositeB::a) << " Bytes" << endl;
-    cout << "Member size sum : "
-         << sizeof(CompositeB::b) + sizeof(CompositeB::c) + sizeof(CompositeB::a)
-         << " Bytes" << endl;
-    cout << "Offsets: b=" << offsetof(CompositeB, b)
-         << ", c=" << offsetof(CompositeB, c)
-         << ", a=" << offsetof(CompositeB, a) << endl;
-    cout << "--------------------------------------------" << endl << endl;
+    // Part B - Padding and Alignment"
+    cout << "Size of ProductOrderA: " << sizeof(ProductOrderA) << " Bytes" << endl;
+    cout << "Size of ProductOrderB: " << sizeof(ProductOrderB) << " Bytes" << endl;
+    cout << "Both structures contain the same members in a different order." << endl;
+    cout << "The compiler may add padding to align the members in memory." << endl;
 
-    cout << "Padding and Alignment Observed" << endl;
-    cout << "--------------------------------------------" << endl << endl;
+    //Part C - Union Shared Memory
+    SharedValue value;
+    cout << "Size of union: " << sizeof(SharedValue) << " Bytes" << endl;
 
-    // Part C
-    SharedMemory u;
-    cout << "Union size : " << sizeof(u) << " Bytes" << endl;
-    cout << "Integer member size : " << sizeof(u.intVal) << " Bytes" << endl;
-    cout << "Float member size : " << sizeof(u.floatVal) << " Bytes" << endl;
-    cout << "Character member size : " << sizeof(u.charVal) << " Bytes" << endl;
-    cout << "Integer/float/character addresses are: "
-         << static_cast<void*>(&u.intVal) << ", "
-         << static_cast<void*>(&u.floatVal) << ", "
-         << static_cast<void*>(&u.charVal) << endl;
+    value.integerValue = 120;
+    cout << "Integer value: " << value.integerValue << endl;
 
-    u.intVal = 120;
-    cout << "Shared Memory Representation" << endl;
-    cout << "Active member - Integer Value : " << u.intVal << endl;
-
-    u.floatVal = 120.00f;
+    value.floatValue = 120.50f;
     cout << fixed << setprecision(2);
-    cout << "Active member - Floating Value : " << u.floatVal << endl;
-    cout << "Inactive integer interpretation is not retained as 120" << endl;
+    cout << "Float value: " << value.floatValue << endl;
+    cout << "The float value is stored in the same memory used by the integer." << endl;
 
-    u.charVal = 'x';
-    cout << "Active member - Character Value : " << u.charVal << endl;
-    cout << "Inactive integer and float interpretations are no longer valid"
-         << endl << endl;
+    value.characterValue = 'x';
+    cout << "Character value: " << value.characterValue << endl;
+    cout << "The character value now uses the shared memory." << endl;
 
-    u.floatVal = 120.50f;
-    cout << "After Assigning Floating Value Again" << endl;
-    cout << "Active member - Floating Value : " << u.floatVal << endl;
-    cout << "Character is no longer the active member" << endl;
-    cout << "--------------------------------------------" << endl << endl;
+    //Part D - Structure and Union Comparison
+    cout << "Structure size: " << sizeof(Product) << " Bytes" << endl;
+    cout << "Union size: " << sizeof(SharedValue) << " Bytes" << endl;
+    cout << "Structure: Each member has its own memory space." << endl;
+    cout << "Union: All members share the same memory space." << endl;
 
-    // Part D
-    cout << "Trade-off Analysis" << endl << endl;
-    cout << "Structure" << endl;
-    cout << "CompositeA: " << sizeof(CompositeA)
-         << " bytes; CompositeB: " << sizeof(CompositeB) << " bytes" << endl;
-    cout << "Separate Memory for Every Member" << endl;
-    cout << "Suitable for Storing Complete Records" << endl;
-    cout << "--------------------------------------------" << endl << endl;
-
-    cout << "Union" << endl;
-    cout << "SharedMemory: " << sizeof(SharedMemory)
-         << " bytes (largest member)" << endl;
-    cout << "Shared Memory for All Members" << endl;
-    cout << "Suitable for Memory-efficient Applications" << endl;
-    cout << "--------------------------------------------" << endl;
-
-    cout << "Program Executed Successfully" << endl;
     return 0;
 }
