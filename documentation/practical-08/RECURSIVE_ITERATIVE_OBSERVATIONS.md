@@ -1,33 +1,19 @@
-# Practical 8.4 — Recursive and Iterative Observations
+# Practical 8.4 - Part D: Comparison
 
-## Traversal
+I tried the recursive and iterative methods with the same values. Both methods gave the same answers in the tests.
 
-`print1ToNRecursive()` uses its base case `n == 0`, then recurses with `n - 1` and prints while returning. `printNTo1Recursive()` prints before its recursive call.
+## Test results
 
-The iterative traversal functions use loops:
+For the number `12345`:
 
-- Ascending traversal increments `i`.
-- Descending traversal decrements `i`.
+- Reverse using recursion: `54321`
+- Reverse using a loop: `54321`
+- Sum of digits using recursion: `15`
+- Sum of digits using a loop: `15`
 
-## Number processing
+For decimal-to-binary conversion:
 
-`reverseNumberRecursive()` and `sumOfDigitsRecursive()` use the base case `n == 0`. Their iterative equivalents use `while (n > 0)`.
-
-Actual test evidence:
-
-```text
-Number: 12345
-Reversed recursive: 54321
-Reversed iterative: 54321
-Digit sum recursive: 15
-Digit sum iterative: 15
-```
-
-## Decimal-to-binary conversion
-
-`decimalToBinaryRecursive()` divides by 2 and prints after recursive return. `decimalToBinaryIterative()` stores remainders in an array and prints in reverse.
-
-| Decimal | Recursive | Iterative |
+| Decimal number | Recursive result | Iterative result |
 |---:|---|---|
 | 0 | `0` | `0` |
 | 10 | `1010` | `1010` |
@@ -36,12 +22,13 @@ Digit sum iterative: 15
 
 ## Comparison
 
-| Area | Recursive | Iterative |
+| Point | Recursive method | Iterative method |
 |---|---|---|
-| Execution | Function calls create and unwind stack frames | Repeated loop statements |
-| Readability | Closely expresses decomposition | Uses explicit state and loop conditions |
-| Function-call overhead | Present | Not required |
-| Base case | Required | Replaced by loop condition |
-| Memory | Stack frames vary with recursion depth | Fixed local-loop storage |
+| Program readability | The function calls itself with a smaller value. I need to understand the base condition. | The loop steps are written one by one, so they are easy to follow. |
+| Execution flow | The function calls continue until the base condition is reached. Then the calls return. | The loop keeps running while its condition is true. |
+| Number of function calls | The recursive function is called again for smaller values. | The loop repeats inside the same function. |
+| Ease of implementation | It needs a base condition and a recursive call. | It needs loop initialization, condition and update. |
 
-No execution times or performance percentages were invented.
+## My observation
+
+For the examples I tried, both methods gave the same output. I found the iterative method easier to trace because I could follow the loop step by step. Recursion was useful for understanding how a problem can be divided into smaller steps.
