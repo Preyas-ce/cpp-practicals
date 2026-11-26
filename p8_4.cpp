@@ -13,7 +13,7 @@ void printNTo1Recursive(int n) {
     printNTo1Recursive(n - 1);
 }
 
-int reverseNumberRecursive(int n, int reversed = 0) {
+int reverseNumberRecursive(int n, int reversed) {
     if (n == 0) return reversed;
     return reverseNumberRecursive(n / 10, reversed * 10 + n % 10);
 }
@@ -52,55 +52,52 @@ void decimalToBinaryIterative(int n) {
         cout << "0";
         return;
     }
+
     int binary[32];
     int count = 0;
     while (n > 0) {
-        binary[count++] = n % 2;
+        binary[count] = n % 2;
+        count++;
         n /= 2;
     }
-    for (int i = count - 1; i >= 0; --i) cout << binary[i];
+
+    for (int i = count - 1; i >= 0; i--) {
+        cout << binary[i];
+    }
 }
 
 int main() {
-    cout << "********************************************\n";
-    cout << "         RECURSIVE UTILITY ANALYZER         \n";
-    cout << "********************************************\n";
-
-    int n = 0;
-    cout << "\nEnter a positive integer (N): ";
+    int n;
+    cout << "Enter a positive integer (N): ";
     if (!(cin >> n) || n <= 0) {
         cout << "Please enter a positive integer greater than 0.\n";
         return 1;
     }
 
-    cout << "Numbers 1 to N, recursive: ";
+    cout << "Numbers 1 to N using recursion: ";
     print1ToNRecursive(n);
-    cout << "\nNumbers N to 1, recursive: ";
+    cout << "\nNumbers N to 1 using recursion: ";
     printNTo1Recursive(n);
 
-    cout << "\n\nNumbers 1 to N, iterative: ";
-    for (int i = 1; i <= n; ++i) cout << i << " ";
-    cout << "\nNumbers N to 1, iterative: ";
-    for (int i = n; i >= 1; --i) cout << i << " ";
+    cout << "\nNumbers 1 to N using iteration: ";
+    for (int i = 1; i <= n; i++) cout << i << " ";
+    cout << "\nNumbers N to 1 using iteration: ";
+    for (int i = n; i >= 1; i--) cout << i << " ";
 
-    int number = 0;
+    int number;
     cout << "\n\nEnter a positive integer: ";
     if (!(cin >> number) || number <= 0) {
         cout << "Please enter a positive integer greater than 0.\n";
         return 1;
     }
 
-    cout << "Reversed Number, recursive: "
-         << reverseNumberRecursive(number) << "\n";
-    cout << "Reversed Number, iterative: "
-         << reverseNumberIterative(number) << "\n";
-    cout << "Sum of Digits, recursive: "
-         << sumOfDigitsRecursive(number) << "\n";
-    cout << "Sum of Digits, iterative: "
-         << sumOfDigitsIterative(number) << "\n";
+    cout << "Reversed Number, recursive: " << reverseNumberRecursive(number, 0) << "\n";
+    cout << "Reversed Number, iterative: " << reverseNumberIterative(number) << "\n";
+    cout << "Sum of Digits, recursive: " << sumOfDigitsRecursive(number) << "\n";
+    cout << "Sum of Digits, iterative: " << sumOfDigitsIterative(number) << "\n";
 
-    int decimalNumber = -1;
-    cout << "\nEnter a decimal number: ";
+    int decimalNumber;
+    cout << "\nEnter a non-negative decimal number: ";
     if (!(cin >> decimalNumber) || decimalNumber < 0) {
         cout << "Please enter a non-negative decimal integer.\n";
         return 1;
@@ -114,10 +111,21 @@ int main() {
     decimalToBinaryIterative(decimalNumber);
 
     cout << "\n\nPart D - Comparative Analysis\n";
-    cout << "Traversal: recursion uses stack calls; iteration uses a loop.\n";
-    cout << "Number processing: both results match; iteration avoids stack overhead.\n";
-    cout << "Binary conversion: both results match; recursion prints from high to low.\n";
+    cout << "\n1. Program Readability\n";
+    cout << "Recursive: The function calls itself for a smaller value.\n";
+    cout << "Iterative: The loop and its update are written in the function.\n";
 
-    cout << "\nProgram Executed Successfully.\n";
+    cout << "\n2. Execution Flow\n";
+    cout << "Recursive: Calls continue until the base condition is reached.\n";
+    cout << "Iterative: The loop repeats until its condition becomes false.\n";
+
+    cout << "\n3. Number of Function Calls\n";
+    cout << "Recursive: The function is called repeatedly for smaller values.\n";
+    cout << "Iterative: The function is called once and repeats using a loop.\n";
+
+    cout << "\n4. Ease of Implementation\n";
+    cout << "Recursive: Needs a base condition and a recursive call.\n";
+    cout << "Iterative: Needs loop initialization, condition and update.\n";
+
     return 0;
 }
