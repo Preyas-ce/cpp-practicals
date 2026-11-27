@@ -63,7 +63,7 @@ Change the file name in the commands when you want to run another practical. Com
 | 11.2 | File operations and random file access | `p11_2.cpp` |
 | 11.3 | Student records stored in files | `p11_3.cpp` |
 
-## Practical 1: C compilation
+## Practical 1: C++ compilation
 
 The college practical list asks for a **C++ program** for the compilation-process exercise. The source file is `documentation/practical-01/A.c`. The C++ file `p1.cpp` is only an extra Hello World example.
 
