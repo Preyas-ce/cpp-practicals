@@ -65,7 +65,7 @@ Change the file name in the commands when you want to run another practical. Com
 
 ## Practical 1: C compilation
 
-The college practical list asks for a **C program** for the compilation-process exercise. The source file is `documentation/practical-01/A.c`. The C++ file `p1.cpp` is only an extra Hello World example.
+The college practical list asks for a **C++ program** for the compilation-process exercise. The source file is `documentation/practical-01/A.c`. The C++ file `p1.cpp` is only an extra Hello World example.
 
 From the repository folder, run these commands in PowerShell to create the intermediate files and executable:
 
